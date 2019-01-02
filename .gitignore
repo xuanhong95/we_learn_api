@@ -1,0 +1,9 @@
+/build/
+.DS_Store
+.settings/
+.classpath
+/WebContent/WEB-INF/classes/config.properties
+dump.rdb
+.idea
+target/
+.project

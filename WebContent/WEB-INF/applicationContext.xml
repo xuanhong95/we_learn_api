@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>classpath:config.properties</value>
+		</property>
+	</bean>
+
+	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="initialSize" value="100" />
+		<property name="maxTotal" value="30" />
+		<property name="removeAbandonedOnBorrow" value="true" />
+		<property name="maxWaitMillis" value="300000" />
+		<property name="maxConnLifetimeMillis" value="30000" />
+		<property name="testOnBorrow" value="true" />
+		<property name="validationQuery" value="SELECT 1" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="edi.crm@bklogistics.com.vn" />
+		<property name="password" value="Bki123456789" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="loginDao" class="com.we_learn.dao.LoginDaoImp">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="mailSender" ref="mailSender" />
+	</bean>
+	<bean id="qaDao" class="com.we_learn.dao.QADaoImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	<bean id="homeDao" class="com.we_learn.dao.HomePageDaoImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	<bean id="qaCommentDao" class="com.we_learn.dao.QACommentDaoImp">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	<bean id="createTestDao" class="com.we_learn.dao.CreateTestDaoImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	<bean id="testDao" class="com.we_learn.dao.TestDaoImp">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	<bean id="articleDao" class="com.we_learn.dao.ArticleDaoImp">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	<bean id="articleTopicDao" class="com.we_learn.dao.ArticleTopicDaoImp">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	<bean id="articleTopicContentDao" class="com.we_learn.dao.ArticleTopicContentDaoImp">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	<bean id="documentDao" class="com.we_learn.dao.DocumentDaoImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	<bean id="userAnswerDao" class="com.we_learn.dao.UserAnswerDaoImp">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	<bean id="userDao" class="com.we_learn.dao.UserDaoImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	<bean id="permissionDao" class="com.we_learn.dao.PermissionDaoImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
+	</bean>
+	<bean id="writingTestDao" class="com.we_learn.dao.WrittingTestDaoImp">
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
+	</bean>
+	<bean id="writingTestTopicDao" class="com.we_learn.dao.WrittingTestTopicDaoImp">
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
+	</bean>
+</beans>

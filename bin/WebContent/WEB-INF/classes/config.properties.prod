@@ -1,0 +1,14 @@
+#config database
+jdbc.driverClassName=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://127.0.0.1:3306/crm_prod?useUnicode=yes&autoReconnect=true&maxReconnects=5&failOverReadOnly=false&characterEncoding=UTF-8
+jdbc.username=root
+jdbc.password=VTidc@@5001601-01!
+
+#config upload path
+uploadPath=/home/datacenter/bki/
+
+#config root url upload folder
+uploadUrl=http://crm-datacenter.backyinc.com/
+
+#config root url website
+websiteUrl=http://crm.backyinc.com/
